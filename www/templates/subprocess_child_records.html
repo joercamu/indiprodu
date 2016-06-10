@@ -1,0 +1,31 @@
+<ion-view title="Control de proceso">
+	<ion-content ng-init="getRecordTypes()" scroll="false">
+			<ion-slides>
+				<ion-slide-page  class="box padding" ng-repeat="record in records">
+					<div class="list">
+						<label class="item item-input item-stacked-label">
+					    	<span class="input-label">{{ record.relationships.record_type.attributes.name }} </span>
+					    	<input ng-model="record.attributes.value" type="{{record.relationships.record_type.attributes.field_type}}" placeholder="Digite aquí el valor..." value="{{record.attributes.value}}">
+					  	</label>
+					  	<button class="button button-block button-positive" ng-click="saveRecord(record)">Guardar</button>
+					  	<ion-scroll style="height:350px">
+				  			<ion-list>
+				  				<ion-item ng-repeat="record in records | orderBy:'attributes.saved'" class="item-toggle">
+				  					<p>
+				  						{{ record.relationships.record_type.attributes.name }}: 
+				  						{{ record.attributes.value }}
+				  					</p>	
+				  					 <label class="toggle toggle-positive">
+								       <input type="checkbox" ng-model="record.attributes.saved" readonly disabled>
+								       <div class="track">
+								         <div class="handle"></div>
+								       </div>
+								     </label>
+				  				</ion-item>
+				  			</ion-list>
+			  			</ion-scroll>
+					</div>
+				</ion-slide-page>
+			</ion-slides>
+	</ion-content>
+</ion-view>

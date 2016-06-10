@@ -1,0 +1,85 @@
+<ion-view title="Pedido K{{subprocess.relationships.order.attributes.order_number}}">
+	<ion-content ng-init="getSubprocess()">
+	<!-- componente para refrescar los pedidos nuevos -->
+	    <ion-refresher
+	      pulling-text="Soltar para recargar..."
+	      on-refresh="getSubprocess()">
+	    </ion-refresher>
+		<ion-list >
+			<ion-item>
+				<h2>Pedido:</h2>
+				<h3>K{{ subprocess.relationships.order.attributes.order_number }}</h3>
+				<p>{{ subprocess.relationships.order.attributes.outsourced_name }}</p>
+				<p> Orden de compra: {{ subprocess.relationships.order.attributes.order_oc }}</p>
+				<p> Asesor: {{ subprocess.relationships.order.attributes.order_adviser }}</p>
+			</ion-item>
+			<ion-item>
+				<h2>Metros:</h2>
+				<h3>{{ subprocess.attributes.meter }}</h3>
+			</ion-item>
+			<ion-item>
+				<div class="row">
+				  <div class="col">
+				  	<h2>Minutos totales:</h2>
+					<h3>{{ subprocess.attributes.minutes + subprocess.attributes.setup_time }}</h3>
+				  </div>
+				  <div class="col">
+				  	<h2>Minutos de producción:</h2>
+					<h3>{{ subprocess.attributes.minutes }}</h3>
+				  </div>
+				  <div class="col">
+				  	<h2>Minutos de alistamiento:</h2>
+					<h3>{{ subprocess.attributes.setup_time }}</h3>
+				  </div>
+				</div>
+				<p>
+					Hora inicio:
+					<span>{{subprocess.attributes.start_date | amUtc | amDateFormat:'DD-MM-YYYY HH:mm'}}</span>
+				</p>
+				<p>
+					Hora final:
+					<span>{{subprocess.attributes.end_date | amUtc | amDateFormat:'DD-MM-YYYY HH:mm'}}</span>
+				</p>
+			</ion-item>
+			<ion-item>
+				<h2>Estado:</h2>
+				<h3>{{ subprocess.attributes.state }}</h3>
+			</ion-item>
+			<ion-item>
+				<h2>Cantidad Solicitada:</h2>
+				<h3>
+					{{ subprocess.relationships.order.attributes.order_quantity }}
+					{{ subprocess.relationships.order.attributes.order_um }}
+				</h3>
+			</ion-item>
+			<ion-item>
+				<h2>Material:</h2>
+				<p>Pelicula :{{ subprocess.relationships.order.attributes.sheet_film }}</p>
+				<p>Calibre :{{ subprocess.relationships.order.attributes.sheet_caliber }}</p>
+				<p>Composición :{{ subprocess.relationships.order.attributes.sheet_composite }}</p>
+			</ion-item>
+			<ion-item>
+				<h2>Producciones</h2>
+			</ion-item>
+			<ion-item ng-repeat="(index, subprocessChild) in subprocess.relationships.subprocess_children">
+				<div class="row">
+					<div class="col">
+						<p>{{index + 1}}</p>
+					</div>
+					<div class="col">
+						<p>{{ subprocessChild.attributes.start_date | amUtc | amDateFormat:'DD-MM-YYYY'}}</p>	
+					</div>
+					<div class="col">
+						<p>{{ subprocessChild.relationships.operator.attributes.first_name}} {{ subprocessChild.relationships.operator.attributes.last_name}}</p>
+					</div>
+					<div class="col">
+						<p>{{ translateState(subprocessChild.attributes.state) }}</p>
+					</div>
+				</div>
+				
+			</ion-item>
+		</ion-list>
+		<button class="button button-assertive button-block" ng-click="startNewSubprocessChild(subprocess)">Empezar nueva producción</button>
+	</ion-content>
+
+</ion-view>

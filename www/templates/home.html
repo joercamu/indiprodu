@@ -1,0 +1,18 @@
+<ion-view title="Inicio">
+	<ion-content>
+		<ion-list ng-repeat="message in messages">
+			<ion-item>
+				<p>{{message.body}}</p>
+			</ion-item>
+		</ion-list>
+	<!-- form new message -->
+		<ion-list>
+			<ion-item class="item-input-inset">
+				<label class="item-input-wrapper">
+					<input ng-model="message.body" type="text" placeholder="Mensaje">
+				</label>
+				<button class="button button-small" ng-click="sendMessage(message)">Enviar</button>		
+			</ion-item>
+		</ion-list>		
+	</ion-content>
+</ion-view>

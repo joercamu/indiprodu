@@ -1,0 +1,60 @@
+<ion-view>
+	<ion-content ng-init="getWastes()">
+		<div class="row">
+			<div class="col">
+				<!-- formulario -->
+				<form name="form" novalidate class="list simple-form">
+					<ion-item class="item-divider">
+						Nuevo desperdicio
+					</ion-item>
+					<!-- PROCESO -->
+					<label class="item item-input item-select">
+				    <div class="input-label">
+				      Proceso
+				    </div>
+				    <select ng-model="waste.procedure_id" name="wProcedure" required="">
+				      <option ng-repeat="procedure in procedures" ng-value="procedure.id">{{ procedure.attributes.name }}</option>
+				    </select>
+				  	</label>
+				  	<div ng-show="form.$submitted || form.wProcedure.$touched" class="item item-error">
+				  		<p ng-show="form.wProcedure.$error.required">Este campo es obligatorio</p>
+				  	</div>
+				  	<!-- PESO -->
+					<label class="item item-input item-floating-label">
+						<span class="input-label">Peso en Kilogramos</span>
+						<input type="number" placeholder="Peso en Kilogramos" ng-model="waste.weight" name="wWeight" required="">
+					</label>
+				  	<div ng-show="form.$submitted || form.wWeight.$touched" class="item item-error">
+				  		<p ng-show="form.wWeight.$error.required">Este campo es obligatorio</p>
+					</div>
+					<!-- CUADRE -->
+				  	<ion-checkbox ng-model="waste.square">Cuadre?</ion-checkbox>
+
+				  	<!-- COMENTARIO -->
+				  	<label class="item item-input item-floating-label">
+						<span class="input-label">Comentarios</span>
+				    	<textarea placeholder="Comentarios" ng-model="waste.comment"></textarea>
+				  	</label>
+				  	<div class="item">
+				  		<input type="submit" class="button button-block button-positive" ng-click="createWaste(waste,form)" value="Crear desperdicio" />
+				  	</div>
+				</form>
+			</div>
+			<div class="col">
+				<!-- desperdicios agregados -->
+				<ion-list>
+					<ion-item class="item-divider">
+						Lista de desperdicios relacionados
+					</ion-item>
+					<ion-item ng-repeat="waste in wastes">
+						<h2> {{ waste.relationships.procedure.attributes.name }} </h2>
+						<p>
+							{{ waste.attributes.weight }} Kilos <strong ng-if="waste.attributes.square"> de cuadre </strong>
+						</p>
+						<p>{{ waste.attributes.comment }}</p>
+					</ion-item>
+				</ion-list>
+			</div>
+		</div>	
+	</ion-content>
+</ion-view>

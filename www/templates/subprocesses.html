@@ -1,0 +1,58 @@
+<ion-view view-title="{{subprocesses.length}} Pedidos">
+  <ion-content ng-init="getSubprocesses()">
+    <div class="container-center">
+      <!-- boton  para recargar los subprocesos cuando no hay ninguno-->
+      <button ng-hide="subprocesses.length > 0" class="button button-positive icon ion-refresh" ng-click="getSubprocesses(null,true)">Recargar</button>  
+    </div>
+    <!-- barra form para buscar subprocesos -->
+    <form ng-submit="search.run()">
+      <div ng-show="search.show" class="bar bar-header item-input-inset">
+        
+          <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input id="inputSearchSubprocess" ng-model="search.input" type="number" placeholder="Buscar">
+          </label>
+          <button type="submit" class="button button-search">
+            Buscar
+          </button>
+          <!-- <button type="button" class="button button-clear" ng-click="search.clear()">
+            Cancelar
+          </button> -->
+      </div>
+    </form>
+    <!-- componente para refrescar los pedidos nuevos -->
+    <ion-refresher
+      pulling-text="Soltar para recargar..."
+      on-refresh="getNewSubprocesses()">
+    </ion-refresher>
+
+    <!-- lista de subprocesos -->
+   	<ion-list>
+   		<a class="item item-custom" ng-repeat="subprocess in subprocesses" href="#/app/subprocesses/{{subprocess.id}}" on-hold="startNewSubprocessChild(subprocess)">
+   			<h2>
+          K{{ subprocess.relationships.order.attributes.order_number }} 
+          {{subprocess.relationships.order.attributes.order_type}}
+        </h2>
+   			<h3>{{ subprocess.relationships.order.attributes.outsourced_name}} </h3>
+   			<p>
+          <span class="subtitle" ng-show="subprocess.attributes.minutes">Minutos:</span> {{subprocess.attributes.minutes}}"
+          <span class="subtitle" ng-show="subprocess.attributes.meter">Metros:</span> {{subprocess.attributes.meter}} 
+          <span class="subtitle" ng-show="subprocess.relationships.order.attributes.sheet_spaces">Cabidas:</span> {{subprocess.relationships.order.attributes.sheet_spaces}} 
+          <span class="subtitle" ng-show="subprocess.relationships.order.attributes.sheet_roller">Rollido:</span> {{subprocess.relationships.order.attributes.sheet_roller}}
+          <span class="date-start" am-time-ago="subprocess.attributes.start_date"></span> 
+        </p>
+   		</a>
+    </ion-list>
+     <!-- infinite scroll -->
+    <div class="row">
+      <div class="col col-center" style="text-align:center;">
+        <button class="button icon-left ion-refresh button-positive" type="button" ng-click="getMoreSubprocesses()" ng-show="subprocesses.length > 0">Cargar más...</button>
+      </div>
+    </div>
+  </ion-content>
+  <!-- boton para mostrar barra de subprocesos -->
+  <div class="hide-on-keyboard-open">
+    <button id="buttonSearchSubprocess" class="button button-positive icon ion-search" ng-click="showHeaderSearch()"><button>  
+  </div>
+  
+</ion-view>

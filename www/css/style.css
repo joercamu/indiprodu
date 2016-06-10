@@ -1,0 +1,34 @@
+/* Empty. Add your own CSS if you like */
+.container-center{
+	display: flex;
+	align-items:center;
+	justify-content:center;
+	flex-direction: column;
+}
+.content-login-home{
+	text-align: center;
+}
+.content-login-home img{
+	padding: 5em 0rem 4rem;
+}
+.content-login-home h2{
+	color:#f8f8f8;
+}
+.item-custom p > span.subtitle{
+	font-weight:bold;
+}
+.item-custom p > span.date-start{
+	display: flex;
+	text-align: center;
+	position: absolute;
+	top: 8px;
+	right: 8px;
+}
+#buttonSearchSubprocess{
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+}
+.item-error p{
+	color: red;
+}

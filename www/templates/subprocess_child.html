@@ -1,0 +1,104 @@
+<ion-view view-title="">
+	<ion-content ng-init="getSubprocessChild()">
+		<div class="row">
+			<div class="col">
+					<ion-list>
+						<ion-item class="item-avatar item-button-right">
+							<img src="../img/spk.png">
+							<h2>{{ subprocessChild.data.relationships.operator.attributes.first_name}}</h2>
+							<p>{{ subprocessChild.data.relationships.operator.attributes.last_name}}</p>
+							<button class="button icon ion-refresh" type="button" ng-click="refreshDate()"></button>
+						</ion-item>
+						<ion-item>
+							<h2>
+								Pedido: {{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.order_number}}
+												{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.order_type}}
+							</h2>
+							<h3>{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.outsourced_name}}</h3>
+							<p>{{ }}</p>
+						</ion-item>
+					</ion-list>
+					<!-- botones para parar y arrancar -->
+					<div class="container-center" ng-init="getBlockTypes()">
+						<button class="button button-block button-assertive" type="button" ng-click="onClickStop()">
+							<span ng-hide="running">Parar</span>
+							<span ng-show="running">Terminar {{ block_time.data.relationships.block_type.attributes.name | lowercase}}</span>
+						</button>
+						<button ng-click="onClickStart()" ng-hide="running_production" class="button button-block button-balanced" type="button">Arrancar</button>
+					</div>
+					<!-- informacion de tiempo de paraca actual -->
+					<div id="containerInfoDate"class="container-center">
+						<h2> {{ block_time.data.relationships.block_type.attributes.name }} </h2>	<br>
+						<div id="DateCountdown" style="width:100%"></div>
+					</div>
+			</div>
+			<div class="col">
+				<ion-list>
+					<!-- item con estado de la maquina -->
+					<ion-item class="item-toggle">
+						ESTADO DE MAQUINA
+						<label class="toggle" ng-class="{'toggle-balanced':running_production,'toggle-assertive':!running_production}">
+							<input type="checkbox" ng-model="running" readonly disabled>
+							<div class="track">
+								<div class="handle"></div>
+							</div>
+						</label>
+					</ion-item>
+					<!-- item con informacion de la parada -->
+					<ion-item>
+					  	<h2>Hora de inicio</h2>
+						<h3>{{subprocessChild.data.attributes.started_at | date: 'dd-MM-yyyy h:mm a'}}</h3>
+						<p>Minutos programados: 
+							{{ subprocessChild.data.relationships.subprocess.attributes.minutes + subprocessChild.data.relationships.subprocess.attributes.setup_time }}"
+						</p>
+					</ion-item>
+					<!-- item con botones de control de proceso y desperdicio -->
+					<ion-item>
+						<div class="row">
+							<div class="col">
+								<button ng-click="goToRecords()" class="button button-block"> Control de proceso </button>
+							</div>
+							<div class="col">
+								<button ng-click="goToWastes()" class="button button-block"> Desperdicios </button>
+							</div>
+						</div>
+					</ion-item>
+					<!-- item con tiempo de subprocess child -->
+					<ion-item>
+						<div class="container-center">
+							<div id="DateCountTimeSubprocessChild" style="width:100%;margin:-50px"></div>
+						</div>
+					</ion-item>
+				</ion-list>
+				<!-- informacion del pedido -->
+				<ion-scroll style="height:250px">
+					<ion-list>
+						<ion-item>
+							<h2>Fecha solicitada: </h2>
+							<p>{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.order_date_request }}</p>
+						</ion-item>
+						<ion-item>
+							<h2>Cantidad: </h2>
+							<p>
+								{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.order_quantity }}
+								{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.order_um }}
+							</p>
+						</ion-item>
+						<ion-item>
+							<h2>Pelicula: </h2>
+							<p>
+								{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.sheet_film }}
+								{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.sheet_caliber }}
+								<strong>Composición:</strong>
+								{{ subprocessChild.data.relationships.subprocess.relationships.order.attributes.sheet_composite }}
+							</p>
+						</ion-item>
+					</ion-list>
+				</ion-scroll>
+			</div>
+		</div>
+		<button ng-click="finishSubprocessChild()" type="button" class="button button-block button-positive">
+			Terminar Pedido
+		</button>
+	</ion-content>
+</ion-view>

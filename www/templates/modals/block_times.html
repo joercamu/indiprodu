@@ -1,0 +1,18 @@
+<ion-modal-view>
+	<ion-header-bar>
+	<div>
+		<button class="button icon-left ion-chevron-left button-clear button-dark" ng-show="blocks[0].type != 'block_categories'" ng-click="backBlocks()">Atras</button>
+	</div>
+	<h1 class="title">Bloques de paradas</h1>
+	<div class="buttons">
+		<button class="button button-clear" ng-click="modal.hide()">Cerrar</button>
+	</div>
+	</ion-header-bar>
+	<ion-content>
+		<ion-list>
+			<ion-item ng-repeat="block in blocks" ng-click="setBlock(block)">
+				<h2> {{block.attributes.name }} </h2>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-modal-view>

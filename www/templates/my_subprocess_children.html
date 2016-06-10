@@ -1,0 +1,14 @@
+<ion-view title="Mis producciones">
+	<ion-content ng-init="getMySubprocessChildren()">
+		<ion-refresher
+	      pulling-text="Soltar para recargar..."
+	      on-refresh="getMySubprocessChildren()">
+	    </ion-refresher>
+	    <!-- lista de ped -->
+		<ion-list ng-repeat="subprocess_child in subprocess_children">
+			<ion-item>
+				{{ subprocess_child }}
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-view>
