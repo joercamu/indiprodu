@@ -7,7 +7,11 @@
 	    <!-- lista de ped -->
 		<ion-list ng-repeat="subprocess_child in subprocess_children">
 			<ion-item>
-				{{ subprocess_child }}
+				<h2> {{ subprocess_child.id }} </h2>
+				<p> 
+					{{ subprocess_child.attributes.state }}
+					<span am-time-ago="subprocess_child.attributes.created_at"></span>
+				</p>
 			</ion-item>
 		</ion-list>
 	</ion-content>
